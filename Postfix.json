@@ -1,0 +1,634 @@
+{
+  "title": "Oildex Internal Postfix",
+  "services": {
+    "query": {
+      "list": {
+        "0": {
+          "query": "type: postfix",
+          "alias": "mail",
+          "color": "#7EB26D",
+          "id": 0,
+          "pin": true,
+          "type": "lucene",
+          "enable": true
+        },
+        "1": {
+          "id": 1,
+          "color": "#890F02",
+          "alias": "Not Relays",
+          "pin": true,
+          "type": "lucene",
+          "enable": true,
+          "query": "NOT den2-m1-mta01b AND NOT den2-m1-mta01a"
+        },
+        "2": {
+          "id": 2,
+          "color": "#6ED0E0",
+          "alias": "MTA Relays",
+          "pin": true,
+          "type": "lucene",
+          "enable": true,
+          "query": "host IS (\"den2-m1-mta01b.transzap.com\" OR \"den2-m1-mta01a.transzap.com\") AND NOT scarlet"
+        },
+        "3": {
+          "id": 3,
+          "color": "#EF843C",
+          "alias": "not Oildex",
+          "pin": true,
+          "type": "lucene",
+          "enable": true,
+          "query": "NOT (\"@oildex.com\" OR root)"
+        },
+        "4": {
+          "id": 4,
+          "color": "#E24D42",
+          "alias": "external relays",
+          "pin": true,
+          "type": "lucene",
+          "enable": true,
+          "query": "NOT (\"none\" OR \"127.0.0.1\" OR *outlook.com OR \"local\")"
+        },
+        "5": {
+          "id": 5,
+          "color": "#1F78C1",
+          "alias": "status",
+          "pin": true,
+          "type": "lucene",
+          "enable": true,
+          "query": "stat OR status"
+        }
+      },
+      "ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "filter": {
+      "list": {
+        "0": {
+          "type": "time",
+          "field": "@timestamp",
+          "from": "now-24h",
+          "to": "now",
+          "mandate": "must",
+          "active": true,
+          "alias": "",
+          "id": 0
+        },
+        "1": {
+          "type": "field",
+          "field": "type",
+          "query": "\"postfix\"",
+          "mandate": "must",
+          "active": true,
+          "alias": "",
+          "id": 1
+        },
+        "3": {
+          "type": "exists",
+          "field": "to.raw",
+          "mandate": "must",
+          "active": true,
+          "alias": "",
+          "id": 3
+        }
+      },
+      "ids": [
+        0,
+        1,
+        3
+      ]
+    }
+  },
+  "rows": [
+    {
+      "title": "Graph",
+      "height": "300px",
+      "editable": true,
+      "collapse": false,
+      "collapsable": true,
+      "panels": [
+        {
+          "span": 12,
+          "editable": true,
+          "type": "histogram",
+          "loadingEditor": false,
+          "mode": "count",
+          "time_field": "@timestamp",
+          "value_field": null,
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_format": "none",
+          "grid": {
+            "max": null,
+            "min": 0
+          },
+          "queries": {
+            "mode": "selected",
+            "ids": [
+              0,
+              1
+            ]
+          },
+          "annotate": {
+            "enable": false,
+            "query": "*",
+            "size": 20,
+            "field": "_type",
+            "sort": [
+              "_score",
+              "desc"
+            ]
+          },
+          "auto_int": true,
+          "resolution": 100,
+          "interval": "10m",
+          "intervals": [
+            "auto",
+            "1s",
+            "1m",
+            "5m",
+            "10m",
+            "30m",
+            "1h",
+            "3h",
+            "12h",
+            "1d",
+            "1w",
+            "1y"
+          ],
+          "lines": true,
+          "fill": 2,
+          "linewidth": 3,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "spyable": true,
+          "zoomlinks": true,
+          "options": true,
+          "legend": true,
+          "show_query": true,
+          "interactive": true,
+          "legend_counts": true,
+          "timezone": "browser",
+          "percentage": false,
+          "zerofill": true,
+          "derivative": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "title": "Events"
+        }
+      ],
+      "notice": false
+    },
+    {
+      "title": "Bars",
+      "height": "500px",
+      "editable": true,
+      "collapse": false,
+      "collapsable": true,
+      "panels": [
+        {
+          "error": false,
+          "span": 6,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "to",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "bar",
+          "counter_pos": "above",
+          "spyable": true,
+          "queries": {
+            "mode": "selected",
+            "ids": [
+              3
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "External Recipients"
+        },
+        {
+          "error": false,
+          "span": 6,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "host",
+          "exclude": [
+            ""
+          ],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "bar",
+          "counter_pos": "above",
+          "spyable": true,
+          "queries": {
+            "mode": "selected",
+            "ids": [
+              1
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Top Hosts"
+        },
+        {
+          "error": false,
+          "span": 6,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "to",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "bar",
+          "counter_pos": "above",
+          "spyable": true,
+          "queries": {
+            "mode": "all",
+            "ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Top Recipients"
+        },
+        {
+          "error": false,
+          "span": 6,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "from",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "bar",
+          "counter_pos": "above",
+          "spyable": true,
+          "queries": {
+            "mode": "selected",
+            "ids": [
+              0
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "From Addresses"
+        }
+      ],
+      "notice": false
+    },
+    {
+      "title": "Pies",
+      "height": "300px",
+      "editable": true,
+      "collapse": false,
+      "collapsable": true,
+      "panels": [
+        {
+          "error": false,
+          "span": 2,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "program",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "pie",
+          "counter_pos": "above",
+          "spyable": true,
+          "queries": {
+            "mode": "all",
+            "ids": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Mail Programs"
+        },
+        {
+          "error": false,
+          "span": 2,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "status",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "pie",
+          "counter_pos": "above",
+          "spyable": true,
+          "queries": {
+            "mode": "selected",
+            "ids": [
+              5
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Message Status"
+        },
+        {
+          "error": false,
+          "span": 2,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "logsource",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "pie",
+          "counter_pos": "above",
+          "spyable": true,
+          "queries": {
+            "mode": "selected",
+            "ids": [
+              2
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Load Balance"
+        },
+        {
+          "error": false,
+          "span": 6,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "relay",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "bar",
+          "counter_pos": "above",
+          "spyable": true,
+          "queries": {
+            "mode": "selected",
+            "ids": [
+              4
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Relays"
+        }
+      ],
+      "notice": false
+    },
+    {
+      "title": "Table",
+      "height": "900px",
+      "editable": true,
+      "collapse": false,
+      "collapsable": true,
+      "panels": [
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "table",
+          "loadingEditor": false,
+          "size": 100,
+          "pages": 5,
+          "offset": 0,
+          "sort": [
+            "_score",
+            "desc"
+          ],
+          "overflow": "min-height",
+          "fields": [
+            "timestamp",
+            "to",
+            "relay",
+            "program",
+            "logsource",
+            "host",
+            "message",
+            "size"
+          ],
+          "highlight": [],
+          "sortable": true,
+          "header": true,
+          "paging": true,
+          "field_list": true,
+          "all_fields": false,
+          "trimFactor": 300,
+          "localTime": false,
+          "timeField": "@timestamp",
+          "spyable": true,
+          "queries": {
+            "mode": "selected",
+            "ids": [
+              0
+            ]
+          },
+          "style": {
+            "font-size": "9pt"
+          },
+          "normTimes": true,
+          "title": "Messages"
+        }
+      ],
+      "notice": false
+    }
+  ],
+  "editable": true,
+  "failover": false,
+  "index": {
+    "interval": "none",
+    "pattern": "[logstash-]YYYY.MM.DD",
+    "default": "_all",
+    "warm_fields": false
+  },
+  "style": "dark",
+  "panel_hints": true,
+  "pulldowns": [
+    {
+      "type": "query",
+      "collapse": true,
+      "notice": false,
+      "enable": true,
+      "query": "*",
+      "pinned": true,
+      "history": [
+        "stat OR status",
+        "NOT (\"none\" OR \"127.0.0.1\" OR *outlook.com OR \"local\")",
+        "NOT (\"@oildex.com\" OR root)",
+        "host IS (\"den2-m1-mta01b.transzap.com\" OR \"den2-m1-mta01a.transzap.com\") AND NOT scarlet",
+        "NOT den2-m1-mta01b AND NOT den2-m1-mta01a",
+        "type: postfix",
+        "NOT (\"none\" OR \"127.0.0.1\" OR outlook OR \"local\")",
+        "NOT (\"none\" OR \"127.0.0.1\" OR \"outlook\" OR \"local\")",
+        "NOT (\"@oildex.com\" OR *.transzap.com)",
+        "NOT (\"@oildex.com\" NOT *.transzap.com)"
+      ],
+      "remember": 10
+    },
+    {
+      "type": "filtering",
+      "collapse": true,
+      "notice": true,
+      "enable": true
+    }
+  ],
+  "nav": [
+    {
+      "type": "timepicker",
+      "collapse": false,
+      "notice": false,
+      "enable": true,
+      "status": "Stable",
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ],
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "timefield": "@timestamp",
+      "now": true,
+      "filter_id": 0
+    }
+  ],
+  "loader": {
+    "save_gist": false,
+    "save_elasticsearch": true,
+    "save_local": true,
+    "save_default": true,
+    "save_temp": true,
+    "save_temp_ttl_enable": true,
+    "save_temp_ttl": "30d",
+    "load_gist": false,
+    "load_elasticsearch": true,
+    "load_elasticsearch_size": 20,
+    "load_local": false,
+    "hide": false
+  },
+  "refresh": false
+}
