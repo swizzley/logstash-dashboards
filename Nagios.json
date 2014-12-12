@@ -1,0 +1,595 @@
+{
+  "title": "Oildex MK",
+  "services": {
+    "query": {
+      "list": {
+        "0": {
+          "query": "nagios_state: \"OK\"",
+          "alias": "OK",
+          "color": "#7EB26D",
+          "id": 0,
+          "pin": true,
+          "type": "lucene",
+          "enable": true
+        },
+        "1": {
+          "id": 1,
+          "color": "#EAB839",
+          "alias": "WARNING",
+          "pin": true,
+          "type": "lucene",
+          "enable": true,
+          "query": "nagios_state: \"WARNING\""
+        },
+        "2": {
+          "id": 2,
+          "color": "#890F02",
+          "alias": "CRITICAL",
+          "pin": true,
+          "type": "lucene",
+          "enable": true,
+          "query": "nagios_state: \"CRITICAL\""
+        },
+        "5": {
+          "id": 5,
+          "color": "#1F78C1",
+          "alias": "Nagios",
+          "pin": true,
+          "type": "lucene",
+          "enable": true,
+          "query": "*"
+        },
+        "7": {
+          "id": 7,
+          "color": "#EF843C",
+          "alias": "UNKNOWN",
+          "pin": true,
+          "type": "lucene",
+          "enable": true,
+          "query": "nagios_state: \"UNKNOWN\""
+        }
+      },
+      "ids": [
+        0,
+        1,
+        2,
+        5,
+        7
+      ]
+    },
+    "filter": {
+      "list": {
+        "0": {
+          "type": "time",
+          "field": "@timestamp",
+          "from": "now-6h",
+          "to": "now",
+          "mandate": "must",
+          "active": true,
+          "alias": "",
+          "id": 0
+        },
+        "1": {
+          "type": "terms",
+          "field": "tags.raw",
+          "value": "%{nagios}",
+          "mandate": "must",
+          "active": true,
+          "alias": "",
+          "id": 1
+        },
+        "2": {
+          "type": "terms",
+          "field": "nagios_type.raw",
+          "value": "INITIAL HOST STATE",
+          "mandate": "mustNot",
+          "active": true,
+          "alias": "",
+          "id": 2
+        },
+        "3": {
+          "type": "terms",
+          "field": "type.raw",
+          "value": "check_mk",
+          "mandate": "must",
+          "active": true,
+          "alias": "",
+          "id": 3
+        },
+        "5": {
+          "type": "terms",
+          "field": "nagios_type.raw",
+          "value": "INITIAL SERVICE STATE",
+          "mandate": "mustNot",
+          "active": true,
+          "alias": "",
+          "id": 5
+        }
+      },
+      "ids": [
+        0,
+        1,
+        2,
+        3,
+        5
+      ]
+    }
+  },
+  "rows": [
+    {
+      "title": "Graph",
+      "height": "350px",
+      "editable": true,
+      "collapse": false,
+      "collapsable": true,
+      "panels": [
+        {
+          "span": 12,
+          "editable": true,
+          "group": [
+            "default"
+          ],
+          "type": "histogram",
+          "mode": "count",
+          "time_field": "@timestamp",
+          "value_field": null,
+          "auto_int": true,
+          "resolution": 100,
+          "interval": "5m",
+          "fill": 3,
+          "linewidth": 3,
+          "timezone": "browser",
+          "spyable": true,
+          "zoomlinks": true,
+          "bars": true,
+          "stack": true,
+          "points": false,
+          "lines": false,
+          "legend": true,
+          "x-axis": true,
+          "y-axis": true,
+          "percentage": false,
+          "interactive": true,
+          "queries": {
+            "mode": "selected",
+            "ids": [
+              0,
+              1,
+              2,
+              7
+            ]
+          },
+          "title": "Events over time",
+          "intervals": [
+            "auto",
+            "1s",
+            "1m",
+            "5m",
+            "10m",
+            "30m",
+            "1h",
+            "3h",
+            "12h",
+            "1d",
+            "1w",
+            "1M",
+            "1y"
+          ],
+          "options": true,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "scale": 1,
+          "y_format": "none",
+          "grid": {
+            "max": null,
+            "min": 0
+          },
+          "annotate": {
+            "enable": false,
+            "query": "*",
+            "size": 20,
+            "field": "_type",
+            "sort": [
+              "_score",
+              "desc"
+            ]
+          },
+          "pointradius": 5,
+          "show_query": true,
+          "legend_counts": true,
+          "zerofill": true,
+          "derivative": false,
+          "error": "SearchPhaseExecutionException[Failed to execute phase [query], all shards failed; shardFailures {[HlYj3lTRS16t4El2042Z5w][logstash-2014.12.12][0]: EsRejectedExecutionException[rejected execution (queue capacity 1000) on org.elasticsearch.search.action.SearchServiceTransportAction$23@4156ffb2]}{[HlYj3lTRS16t4El2042Z5w][logstash-2014.12.12][1]: EsRejectedExecutionException[rejected execution (queue capacity 1000) on org.elasticsearch.search.action.SearchServiceTransportAction$23@2b107e53]}{[HlYj3lTRS16t4El2042Z5w][logstash-2014.12.12][2]: EsRejectedExecutionException[rejected execution (queue capacity 1000) on org.elasticsearch.search.action.SearchServiceTransportAction$23@51277338]}{[HlYj3lTRS16t4El2042Z5w][logstash-2014.12.12][3]: EsRejectedExecutionException[rejected execution (queue capacity 1000) on org.elasticsearch.search.action.SearchServiceTransportAction$23@6248ee7d]}{[HlYj3lTRS16t4El2042Z5w][logstash-2014.12.12][4]: EsRejectedExecutionException[rejected execution (queue capacity 1000) on org.elasticsearch.search.action.SearchServiceTransportAction$23@461c72ad]}]"
+        }
+      ],
+      "notice": false
+    },
+    {
+      "title": "Bars",
+      "height": "300px",
+      "editable": true,
+      "collapse": false,
+      "collapsable": true,
+      "panels": [
+        {
+          "error": false,
+          "span": 6,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "nagios_hostname",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "bar",
+          "counter_pos": "above",
+          "spyable": true,
+          "queries": {
+            "mode": "selected",
+            "ids": [
+              5
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Most Active Hosts"
+        },
+        {
+          "error": false,
+          "span": 6,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "nagios_service",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "bar",
+          "counter_pos": "above",
+          "spyable": true,
+          "queries": {
+            "mode": "selected",
+            "ids": [
+              5
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Most Common"
+        }
+      ],
+      "notice": false
+    },
+    {
+      "title": "Pies",
+      "height": "250px",
+      "editable": true,
+      "collapse": false,
+      "collapsable": true,
+      "panels": [
+        {
+          "error": false,
+          "span": 3,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "nagios_type",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": true,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "pie",
+          "counter_pos": "none",
+          "spyable": true,
+          "queries": {
+            "mode": "pinned",
+            "ids": [
+              0,
+              1,
+              2,
+              5,
+              7
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Alerts"
+        },
+        {
+          "error": false,
+          "span": 3,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "nagios_state",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": true,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "pie",
+          "counter_pos": "none",
+          "spyable": true,
+          "queries": {
+            "mode": "pinned",
+            "ids": [
+              0,
+              1,
+              2,
+              5,
+              7
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Checks"
+        },
+        {
+          "error": false,
+          "span": 3,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "nagios_notifyname",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": true,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "pie",
+          "counter_pos": "none",
+          "spyable": true,
+          "queries": {
+            "mode": "pinned",
+            "ids": [
+              0,
+              1,
+              2,
+              5,
+              7
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Notifications"
+        },
+        {
+          "error": false,
+          "span": 3,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "field": "nagios_statelevel",
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "order": "count",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": true,
+          "tilt": false,
+          "labels": true,
+          "arrangement": "horizontal",
+          "chart": "pie",
+          "counter_pos": "none",
+          "spyable": true,
+          "queries": {
+            "mode": "pinned",
+            "ids": [
+              0,
+              1,
+              2,
+              5,
+              7
+            ]
+          },
+          "tmode": "terms",
+          "tstat": "total",
+          "valuefield": "",
+          "title": "Check Status"
+        }
+      ],
+      "notice": false
+    },
+    {
+      "title": "Events",
+      "height": "350px",
+      "editable": true,
+      "collapse": false,
+      "collapsable": true,
+      "panels": [
+        {
+          "title": "All events",
+          "error": "SearchPhaseExecutionException[Failed to execute phase [query], all shards failed; shardFailures {[HlYj3lTRS16t4El2042Z5w][logstash-2014.12.12][0]: EsRejectedExecutionException[rejected execution (queue capacity 1000) on org.elasticsearch.search.action.SearchServiceTransportAction$23@13e53dd3]}{[HlYj3lTRS16t4El2042Z5w][logstash-2014.12.12][1]: EsRejectedExecutionException[rejected execution (queue capacity 1000) on org.elasticsearch.search.action.SearchServiceTransportAction$23@69626d06]}{[HlYj3lTRS16t4El2042Z5w][logstash-2014.12.12][2]: EsRejectedExecutionException[rejected execution (queue capacity 1000) on org.elasticsearch.search.action.SearchServiceTransportAction$23@133cad5c]}{[HlYj3lTRS16t4El2042Z5w][logstash-2014.12.12][3]: EsRejectedExecutionException[rejected execution (queue capacity 1000) on org.elasticsearch.search.action.SearchServiceTransportAction$23@e35dfbb]}{[HlYj3lTRS16t4El2042Z5w][logstash-2014.12.12][4]: EsRejectedExecutionException[rejected execution (queue capacity 1000) on org.elasticsearch.search.action.SearchServiceTransportAction$23@4d98819f]}]",
+          "span": 12,
+          "editable": true,
+          "group": [
+            "default"
+          ],
+          "type": "table",
+          "size": 100,
+          "pages": 5,
+          "offset": 0,
+          "sort": [
+            "@timestamp",
+            "desc"
+          ],
+          "style": {
+            "font-size": "9pt"
+          },
+          "overflow": "min-height",
+          "fields": [
+            "@timestamp",
+            "nagios_hostname",
+            "nagios_service",
+            "nagios_state",
+            "nagios_statelevel",
+            "nagios_type",
+            "nagios_message"
+          ],
+          "localTime": true,
+          "timeField": "@timestamp",
+          "highlight": [],
+          "sortable": true,
+          "header": true,
+          "paging": true,
+          "spyable": true,
+          "queries": {
+            "mode": "all",
+            "ids": [
+              0,
+              1,
+              2,
+              5,
+              7
+            ]
+          },
+          "field_list": true,
+          "status": "Stable",
+          "trimFactor": 3000,
+          "normTimes": true,
+          "all_fields": false
+        }
+      ],
+      "notice": false
+    }
+  ],
+  "editable": true,
+  "failover": false,
+  "index": {
+    "interval": "day",
+    "pattern": "[logstash-]YYYY.MM.DD",
+    "default": "NO_TIME_FILTER_OR_INDEX_PATTERN_NOT_MATCHED",
+    "warm_fields": true
+  },
+  "style": "dark",
+  "panel_hints": true,
+  "pulldowns": [
+    {
+      "type": "query",
+      "collapse": true,
+      "notice": false,
+      "query": "*",
+      "pinned": true,
+      "history": [
+        "nagios_state: \"UNKNOWN\"",
+        "*",
+        "nagios_state: \"CRITICAL\"",
+        "nagios_state: \"WARNING\"",
+        "nagios_state: \"OK\"",
+        "nagios_statelevel: \"HARD\"",
+        "nagios_statelevel: \"SOFT\"",
+        "nagios_state: \"WARNING\" AND nagios_statelevel: \"SOFT\"",
+        "nagios_state: \"CRITICAL\" AND nagios_statelevel: \"HARD\"",
+        "nagios_state: \"CRITICAL\" AND nagios_statelevel: \"SOFT\""
+      ],
+      "remember": 10,
+      "enable": true
+    },
+    {
+      "type": "filtering",
+      "collapse": true,
+      "notice": true,
+      "enable": true
+    }
+  ],
+  "nav": [
+    {
+      "type": "timepicker",
+      "collapse": false,
+      "notice": false,
+      "status": "Stable",
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ],
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "timefield": "@timestamp",
+      "now": true,
+      "filter_id": 0,
+      "enable": true
+    }
+  ],
+  "loader": {
+    "save_gist": false,
+    "save_elasticsearch": true,
+    "save_local": true,
+    "save_default": true,
+    "save_temp": true,
+    "save_temp_ttl_enable": true,
+    "save_temp_ttl": "30d",
+    "load_gist": true,
+    "load_elasticsearch": true,
+    "load_elasticsearch_size": 20,
+    "load_local": true,
+    "hide": false
+  },
+  "refresh": false
+}
